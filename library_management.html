@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Management System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      width: 80%;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .form-group {
+      margin: 20px 0;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .form-group button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .form-group button:hover {
+      background-color: #45a049;
+    }
+
+    .book-list {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border-radius: 4px;
+    }
+
+    .book-list table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .book-list table, th, td {
+      border: 1px solid #ddd;
+    }
+
+    .book-list th, td {
+      padding: 10px;
+      text-align: left;
+    }
+
+    .search-bar {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Library Management System</h1>
+    
+    <!-- Add Book Section -->
+    <div class="form-group">
+      <input type="text" id="bookTitle" placeholder="Enter Book Title" required>
+      <input type="text" id="bookAuthor" placeholder="Enter Author Name" required>
+      <button onclick="addBook()">Add Book</button>
+    </div>
+    
+    <!-- Search Bar -->
+    <div class="form-group">
+      <input type="text" id="searchBar" class="search-bar" placeholder="Search Books" onkeyup="searchBooks()">
+    </div>
+
+    <!-- Book List -->
+    <div class="book-list">
+      <h2>Available Books</h2>
+      <table id="bookTable">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Books will be listed here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    let books = [];
+
+    // Function to add a book
+    function addBook() {
+      const title = document.getElementById('bookTitle').value;
+      const author = document.getElementById('bookAuthor').value;
+
+      if (title && author) {
+        const newBook = { title, author };
+        books.push(newBook);
+        displayBooks();
+        clearFields();
+      } else {
+        alert("Please enter both title and author.");
+      }
+    }
+
+    // Function to display all books
+    function displayBooks() {
+      const tableBody = document.getElementById('bookTable').getElementsByTagName('tbody')[0];
+      tableBody.innerHTML = ''; // Clear the table before displaying updated list
+
+      books.forEach(book => {
+        const row = tableBody.insertRow();
+        const cell1 = row.insertCell(0);
+        const cell2 = row.insertCell(1);
+        
+        cell1.textContent = book.title;
+        cell2.textContent = book.author;
+      });
+    }
+
+    // Function to clear input fields
+    function clearFields() {
+      document.getElementById('bookTitle').value = '';
+      document.getElementById('bookAuthor').value = '';
+    }
+
+    // Function to search books
+    function searchBooks() {
+      const searchQuery = document.getElementById('searchBar').value.toLowerCase();
+      const filteredBooks = books.filter(book => 
+        book.title.toLowerCase().includes(searchQuery) || 
+        book.author.toLowerCase().includes(searchQuery)
+      );
+      
+      const tableBody = document.getElementById('bookTable').getElementsByTagName('tbody')[0];
+      tableBody.innerHTML = ''; // Clear the table before displaying filtered list
+
+      filteredBooks.forEach(book => {
+        const row = tableBody.insertRow();
+        const cell1 = row.insertCell(0);
+        const cell2 = row.insertCell(1);
+        
+        cell1.textContent = book.title;
+        cell2.textContent = book.author;
+      });
+    }
+  </script>
+
+</body>
+</html>
